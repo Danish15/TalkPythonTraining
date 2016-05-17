@@ -9,4 +9,4 @@ def print_the_header():
 	print("------------------------------------")
 
 
-if __name__ == '__main__":
+
