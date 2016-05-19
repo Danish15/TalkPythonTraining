@@ -21,8 +21,6 @@ def get_html_from_web(zipcode):
 	return response.text
 	#print(response.text[0:250])
 
-	
-
 def get_weather_from_html(html):
 	soup = bs4.BeautifulSoup(html, 'html.parser')
 	loc = soup.find(id='location').find('h1').get_text()
@@ -30,8 +28,21 @@ def get_weather_from_html(html):
 	temp = soup.find(id='curTemp').find(class_='wx-value').get_text()
 	scale = soup.find(id='curTemp').find(class_='wx-unit').get_text()
 
-	print(condition, temp, scale)
+	loc = cleanup_text(loc)
+
+
+	print(condition, temp, scale, loc)
+
+
+def cleanup_text(text : str):
+	if not text:
+		return text
+
+	text = text.strip()
+	return text
+
+
+
 
 if __name__ == '__main__':
 	main()
-#
