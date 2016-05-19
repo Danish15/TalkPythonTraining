@@ -1,11 +1,23 @@
 import requests
 import bs4
+import collections 
+
+WeatherReport = collections.namedtupule('WeatherReport',
+										'loc, temp, scale, cond')
 
 def main():
 	print_the_header
 	code = input('What zipcode do you want the weather for (97201)? ')
 	html = get_html_from_web(code)
-	get_weather_from_html(html)
+	report = get_weather_from_html(html)
+
+	print('The temp in {} is {} {} and {}'.format(
+		report.loc,
+		report.temp,
+		report.scale,
+		report.cond
+	))
+
 
 
 def print_the_header():
@@ -19,7 +31,6 @@ def get_html_from_web(zipcode):
 	response = requests.get(url)
 
 	return response.text
-	#print(response.text[0:250])
 
 def get_weather_from_html(html):
 	soup = bs4.BeautifulSoup(html, 'html.parser')
@@ -29,9 +40,18 @@ def get_weather_from_html(html):
 	scale = soup.find(id='curTemp').find(class_='wx-unit').get_text()
 
 	loc = cleanup_text(loc)
+	loc = find_city_and_state_from_location(loc)
+	condition = cleanup_text(condition)
+	temp = cleanup_text(temp)
+	scale = cleanup_text(scale)
+
+	report = WeatherReport(loc=loc, temp=temp, scale=scale, cond=condition)
+	return report
 
 
-	print(condition, temp, scale, loc)
+def find_city_and_state_from_location(loc: str):
+	parts = loc.split('\n')
+	return parts [0].strip()
 
 
 def cleanup_text(text : str):
@@ -40,9 +60,6 @@ def cleanup_text(text : str):
 
 	text = text.strip()
 	return text
-
-
-
 
 if __name__ == '__main__':
 	main()
