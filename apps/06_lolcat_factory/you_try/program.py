@@ -1,11 +1,12 @@
 import os
+import platform
+import subprocess
 import cat_service
 
 
 def main():
 	print_header()
 	folder = get_or_create_output_folder()
-	print('Found or created folder: ' + folder)
 	download_cats(folder)
 	display_cats(folder)
 	
@@ -37,7 +38,7 @@ def download_cats(folder):
 		cat_service.get_cat(folder, name)
 
 
-	print('done')
+	print('done.')
 
 def display_cats(folder):
 	print('Displaying cats in OS windows.')
@@ -49,8 +50,6 @@ def display_cats(folder):
 		subprocess.call(['xdg-open', folder])
 	else:
 		print("We don't support your os: " + platform.system())
-
-
 
 if __name__ == '__main__':
 	main()
