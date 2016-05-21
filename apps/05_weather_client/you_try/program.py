@@ -2,7 +2,7 @@ import requests
 import bs4
 import collections 
 
-WeatherReport = collections.namedtupule('WeatherReport',
+WeatherReport = collections.namedtuple('WeatherReport',
 										'loc, temp, scale, cond')
 
 def main():
@@ -17,8 +17,6 @@ def main():
 		report.scale,
 		report.cond
 	))
-
-
 
 def print_the_header():
 	print("------------------------------------")
