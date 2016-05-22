@@ -1,7 +1,7 @@
 
 from actors import Wizard, Creature
 
-
+#
 
 def main():
 	print_header()
